@@ -10,7 +10,7 @@ services:
     volumes:
       - /var/postgres-data:/var/lib/postgresql/data
   sonarqube:
-    image: sonarqube:lts
+    image: sonarqube:latest
     ports:
       - "9000:9000"
       - "9092:9092"
