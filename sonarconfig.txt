@@ -9,3 +9,15 @@ sonar.test.exclusions=**/test/java/servlet/createpage_junit.java
 sonar.login=admin
 sonar.password=password
 
+
+
+############## Sonarqube fails to start ############
+Elastic search max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+
+sysctl -w vm.max_map_count=262144
+
+is correct, however, the setting will only last for the duration of the session. If the host reboots, the setting will be reset to the original value.
+
+If you want to set this permanently, you need to edit /etc/sysctl.conf and set vm.max_map_count to 262144.
+
+When the host reboots, you can verify that the setting is still correct by running sysctl vm.max_map_count
