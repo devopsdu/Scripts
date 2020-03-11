@@ -1,21 +1,22 @@
-version: "2"
+version: '3'
 
 services:
   sonarqube:
-    image: sonarqube
+    build: ./sonar
     ports:
-      - "9000:9000"
+      - 9000:9000
     networks:
       - sonarnet
     environment:
-      - sonar.jdbc.url=jdbc:postgresql://db:5432/sonar
+      - sonar.jdbc.url=jdbc:postgresql://sonar-db:5432/sonar
     volumes:
       - sonarqube_conf:/opt/sonarqube/conf
       - sonarqube_data:/opt/sonarqube/data
-      - sonarqube_extensions:/opt/sonarqube/extensions
+    links:
+      - sonar-db
 
-  db:
-    image: postgres
+  sonar-db:
+    image: postgres:9.6-alpine
     networks:
       - sonarnet
     environment:
@@ -23,7 +24,6 @@ services:
       - POSTGRES_PASSWORD=sonar
     volumes:
       - postgresql:/var/lib/postgresql
-      # This needs explicit mapping due to https://github.com/docker-library/postgres/blob/4e48e3228a30763913ece952c611e5e9b95c8759/Dockerfile.template#L52
       - postgresql_data:/var/lib/postgresql/data
 
 networks:
@@ -33,6 +33,5 @@ networks:
 volumes:
   sonarqube_conf:
   sonarqube_data:
-  sonarqube_extensions:
   postgresql:
   postgresql_data:
