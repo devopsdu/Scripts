@@ -1,0 +1,19 @@
+---
+- hosts: all
+#  become: true
+
+  tasks:
+  - name: building docker image using war file
+    command: docker build -t docker-webapp-image:latest .
+    args:
+      chdir: /opt/docker
+
+  - name: Create tag to image
+    command: docker tag docker-webapp-image deraviyam/docker-webapp-image
+
+  - name: Push image on to dockerhub
+    command: docker push deraviyam/docker-webapp-image
+
+  - name: Remove docker images from ansible server
+    command: docker rmi docker-webapp-image:latest deraviyam/docker-webapp-image
+    ignore_errors: yes
