@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+  - name: building docker image using war file
+    command: docker build -t docker-webapp-image .
+    args:
+      chdir: /opt/docker
+
+  - name: Run the docker image docker-webapp-image
+    command: docker run -d --name docker-webapp-container -p 3000:3000 docker-webapp-image
