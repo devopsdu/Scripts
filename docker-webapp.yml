@@ -1,12 +1,23 @@
 ---
 - hosts: all
   become: true
-
   tasks:
-  - name: building docker image using war file
+  - name: stop if we have old docker container
+    command: docker stop docker-webapp-container
+    ignore_errors: yes
+
+  - name: remove stopped docker container
+    command: docker rm docker-webapp-container
+    ignore_errors: yes
+
+  - name: remove current docker image
+    command: docker rmi docker-webapp-image
+    ignore_errors: yes
+
+  - name: building docker image
     command: docker build -t docker-webapp-image .
     args:
       chdir: /opt/docker
 
-  - name: Run the docker image docker-webapp-image
-    command: docker run -d --name docker-webapp-container -p 3000:3000 docker-webapp-image
+  - name: creating docker image
+    command: docker run -d --name docker-webapp-container -p 8080:8080 docker-webapp-image
