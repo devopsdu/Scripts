@@ -91,8 +91,6 @@ localhost
 ssh-copy-id ansadmin@52.170.29.77
 ssh-copy-id ansadmin@localhost
 
-# You can now ssh from ansible to dev instance
-ssh ansadmin@52.170.29.77
 
 # Ping the target instance
 ansible -m ping all
