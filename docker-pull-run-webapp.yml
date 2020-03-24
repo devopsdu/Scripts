@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  become: true
+# become: true
   tasks:
   - name: stop current running container
     command: docker stop docker-webapp-container
