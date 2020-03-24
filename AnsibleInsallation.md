@@ -34,8 +34,10 @@ echo "ansadmin ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 # Install Docker
 yum install docker
 
-# Start Docker and check the status
+# Start Docker 
 service docker start
+
+# Check Docker status
 service docker status
 
 # Add Ansible user as part of docker group
