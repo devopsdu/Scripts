@@ -1,8 +1,9 @@
 
 
 
+1/ Ansible Installation
 # Become Root user
-sudo su –
+sudo su -
 
 # Install Python
 yum install python
@@ -31,6 +32,8 @@ passwd ansadmin
 # Sudo access to ansadmin user
 echo "ansadmin ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
+2/ Docker Installation
+
 # Install Docker
 yum install docker
 
@@ -43,13 +46,17 @@ service docker status
 # Add Ansible user as part of docker group
 usermod -aG docker ansadmin
 
+3/ Set Password Authentication
+
 # Edit sshd config file.  
 vi /etc/ssh/sshd_config [search for /password. Change the PasswordAuthentication yes]
-# EC2 uses keys for remote access
+EC2 uses keys for remote access
 PasswordAuthentication yes
 
 # Reload sshd service
 service sshd reload
+
+# 4/ Generate SSH Keys
 
 # Become ansadmin user
 su - ansadmin
@@ -63,18 +70,23 @@ cd .ssh
 cat id_rsa.pub
 exit
 
-# Login to Dev Instance
+# 5/ Login to Dev Instance
 sudo su -
 
 # Add ansible user and set password
 adduser ansadmin
 
 # Grant Ansible User Sudo Privileges
-usermod -aG sudo ansadmin
-id ansadmin
+echo "ansadmin ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+# Add Ansible user as part of docker group
 sudo usermod -aG docker ansadmin
+
+# To check the group details
 id ansadmin
 
+
+# 6/ Copy the ssh keys
 
 # Login to ansible instance
 su – ansadmin
@@ -83,33 +95,36 @@ su – ansadmin
 cd /etc/ansible
 
 # Create host file and add Dev instance IP
-sudo vi hosts
-52.170.29.77
-localhost
+sudo vi hosts (Add the target host IP & localhost)
 
-# Copy ssh key to dev instance
+# Copy ssh key to target instance
 ssh-copy-id ansadmin@52.170.29.77
-ssh-copy-id ansadmin@localhost
 
+# Copy ssh key to localhost
+ssh-copy-id ansadmin@localhost
 
 # Ping the target instance
 ansible -m ping all
 
-&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+# 1/ Create target directory
 # Login to ansible instance
-# su - ansadmin
+su - ansadmin
 
 # Change directory and follow the steps
 cd /opt
+
 sudo mkdir docker
+
 sudo chown -R ansadmin:ansadmin /opt/docker
+
 ls -l /opt
+
 cd docker
+
 ls –l
 
-
-
+# 2/ Create Playbooks and Dockerfile
 # Login to ansible instance
 su - ansadmin
 
@@ -121,8 +136,6 @@ vi Dockerfile (Refer script folder)
 
 # Pull tomcat latest image from dockerhub 
 From tomcat:latest
-
-# copy war file on to container 
 COPY ./webapp.war /usr/local/tomcat/webapps
 
 # Login to Docker hub so when you run playbook the images can be pushed
@@ -132,17 +145,15 @@ docker login -u dockerid
 # Write a playbook to create a docker image and push to docker hub
 vi docker-create-push-webapp.yml (Refer script folder)
 
-Create hosts file
-vi hosts
-localhost
-52.170.29.77
+# Create hosts file
+vi hosts (Add the target host IP & localhost)
 
 # Write a playbook to pull docker image and run a container
 vi docker-pull-run-webapp.yml (Refer script folder)
 
 *******************
 
-Jenkins "Exec Command"
+# Jenkins "Exec Command"
 
 ansible-playbook -i /opt/docker/hosts /opt/docker/docker-create-push-webapp.yml --limit localhost
 
