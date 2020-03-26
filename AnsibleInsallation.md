@@ -50,7 +50,9 @@ usermod -aG docker ansadmin
 
 # Edit sshd config file.  
 vi /etc/ssh/sshd_config [search for /password. Change the PasswordAuthentication yes]
+
 EC2 uses keys for remote access
+
 PasswordAuthentication yes
 
 # Reload sshd service
