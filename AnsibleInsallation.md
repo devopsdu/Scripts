@@ -137,8 +137,8 @@ cd /opt/docker
 # Create a dockerfile
 vi Dockerfile (Refer script folder)
 
-# Pull tomcat latest image from dockerhub 
 From tomcat:latest
+
 COPY ./webapp.war /usr/local/tomcat/webapps
 
 # Login to Docker hub so when you run playbook the images can be pushed
