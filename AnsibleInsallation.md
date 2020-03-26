@@ -1,7 +1,7 @@
 
 
 
-1/ Ansible Installation
+# 1/ Ansible Installation
 # Become Root user
 sudo su -
 
@@ -32,7 +32,7 @@ passwd ansadmin
 # Sudo access to ansadmin user
 echo "ansadmin ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
-2/ Docker Installation
+# 2/ Docker Installation
 
 # Install Docker
 yum install docker
@@ -46,7 +46,7 @@ service docker status
 # Add Ansible user as part of docker group
 usermod -aG docker ansadmin
 
-3/ Set Password Authentication
+# 3/ Set Password Authentication
 
 # Edit sshd config file.  
 vi /etc/ssh/sshd_config [search for /password. Change the PasswordAuthentication yes]
@@ -70,7 +70,8 @@ cd .ssh
 cat id_rsa.pub
 exit
 
-# 5/ Login to Dev Instance
+# 5/ Create user and set provileges on target host
+# Login to Dev Instance
 sudo su -
 
 # Add ansible user and set password
@@ -113,15 +114,10 @@ su - ansadmin
 
 # Change directory and follow the steps
 cd /opt
-
 sudo mkdir docker
-
 sudo chown -R ansadmin:ansadmin /opt/docker
-
 ls -l /opt
-
 cd docker
-
 ls –l
 
 # 2/ Create Playbooks and Dockerfile
@@ -153,7 +149,7 @@ vi docker-pull-run-webapp.yml (Refer script folder)
 
 *******************
 
-# Jenkins "Exec Command"
+#  3/ Jenkins "Exec Command"
 
 ansible-playbook -i /opt/docker/hosts /opt/docker/docker-create-push-webapp.yml --limit localhost
 
