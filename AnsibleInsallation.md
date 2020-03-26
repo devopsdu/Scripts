@@ -114,10 +114,15 @@ su - ansadmin
 
 # Change directory and follow the steps
 cd /opt
+
 sudo mkdir docker
+
 sudo chown -R ansadmin:ansadmin /opt/docker
+
 ls -l /opt
+
 cd docker
+
 ls –l
 
 # 2/ Create Playbooks and Dockerfile
