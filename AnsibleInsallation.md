@@ -130,12 +130,7 @@ cd docker
 
 ls –l
 
-# 2/ Create Playbooks and Dockerfile
-# Login to ansible instance
-su - ansadmin
-
-# Change directory and follow the steps
-cd /opt/docker
+# 2/ Create Playbooks and Dockerfile under /opt/docker folder
 
 # Create a dockerfile
 vi Dockerfile (Refer script folder)
@@ -144,7 +139,7 @@ From tomcat:latest
 
 COPY ./webapp.war /usr/local/tomcat/webapps
 
-# Login to Docker hub so when you run playbook the images can be pushed
+# Login to Docker hub once so when you run playbook the images can be pushed
 docker login -u dockerid
 
 
