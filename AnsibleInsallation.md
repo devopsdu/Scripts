@@ -75,7 +75,7 @@ cat id_rsa.pub
 
 exit
 
-# 5/ Create user and set provileges on target host
+# 5/ Create user and set privileges on target host
 # Login to Dev Instance
 sudo su -
 
@@ -132,16 +132,11 @@ ls –l
 
 # 2/ Create Playbooks and Dockerfile under /opt/docker folder
 
-# Create a dockerfile
-vi Dockerfile (Refer script folder)
-
-From tomcat:latest
-
-COPY ./webapp.war /usr/local/tomcat/webapps
-
 # Login to Docker hub once so when you run playbook the images can be pushed
 docker login -u dockerid
 
+# Create a dockerfile
+wget https://raw.githubusercontent.com/duorg/Scripts/master/Dockerfile (Refer script folder)
 
 # Write a playbook to create a docker image and push to docker hub
 wget https://raw.githubusercontent.com/duorg/Scripts/master/docker-create-push-webapp.yml (Refer script folder)
