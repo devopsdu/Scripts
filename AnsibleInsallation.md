@@ -5,17 +5,19 @@
 # Become Root user
 sudo su -
 
+# Update Yum
+
 # Install Python
-yum install python
+yum install python38
 
 # Check the Python version
-python --version
+python3 --version
 
 # Install PIP
-yum install python-pip
+yum install python3-pip
 
 # Install Ansible
-pip install ansible
+pip3 install ansible
 
 # Check Ansible version
 ansible --version
@@ -34,8 +36,14 @@ echo "ansadmin ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # 2/ Docker Installation
 
+# Install Yum-Config-Manager
+yum install -y yum-utils
+
+# Add the Docker repo
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
 # Install Docker
-yum install docker
+yum install docker-ce docker-ce-cli containerd.io
 
 # Start Docker 
 service docker start
@@ -95,7 +103,7 @@ id ansadmin
 # 6/ Copy the ssh keys
 
 # Login to ansible instance
-su – ansadmin
+su ansadmin
 
 # Go to ansible directory
 cd /etc/ansible
@@ -145,7 +153,7 @@ wget https://raw.githubusercontent.com/duorg/Scripts/master/docker-create-push-w
 wget https://raw.githubusercontent.com/duorg/Scripts/master/docker-pull-run-webapp.yml (Refer script folder)
 
 # Create hosts file
-vi hosts (Add the target host IP & localhost)
+cp /etc/ansible/hosts .
 
 *******************
 
